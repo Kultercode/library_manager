@@ -4,9 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import jk.program.library_manager.controller.BookController;
 import jk.program.library_manager.dto.BookDTO;
@@ -24,6 +22,8 @@ import org.springframework.validation.BindingResult;
 public class BookControllerTest {
 
     private static final Long BOOK_ID = 1L;
+    private static final String BOOK_TITLE = "1984";
+    private static final Date BOOK_RELEASEDATE = new GregorianCalendar(1949, Calendar.JUNE, 8).getTime();
     private static final BookDTO BOOK_DTO = new BookDTO();
     private static final BookDTO REQUEST = new BookDTO();
     private static final BookDTO CREATED_BOOK = new BookDTO();
@@ -73,6 +73,46 @@ public class BookControllerTest {
         ResponseEntity<BookDTO> result = underTest.findById(BOOK_ID);
 
         ResponseEntity<BookDTO> expected = ResponseEntity.notFound().build();
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testFindByTitleShouldReturnListOfBook() {
+        List<BookDTO> bookDTOList = Collections.singletonList(BOOK_DTO);
+
+        given(bookService.findByTitle(BOOK_TITLE)).willReturn(bookDTOList);
+
+        ResponseEntity<List<BookDTO>> result = underTest.findByTitle(BOOK_TITLE);
+
+        ResponseEntity<List<BookDTO>> expected = ResponseEntity.ok(bookDTOList);
+
+        assertEquals(expected, result);
+    }
+
+
+    @Test
+    public void testFindByReleaseDateShouldReturnListOfBook() {
+        List<BookDTO> bookDTOList = Collections.singletonList(BOOK_DTO);
+
+        given(bookService.findByReleaseDate(BOOK_RELEASEDATE)).willReturn(bookDTOList);
+
+        ResponseEntity<List<BookDTO>> result = underTest.findByReleaseDate(BOOK_RELEASEDATE);
+
+        ResponseEntity<List<BookDTO>> expected = ResponseEntity.ok(bookDTOList);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testFindByTitleAndReleaseDateShouldReturnListOfBook() {
+        List<BookDTO> bookDTOList = Collections.singletonList(BOOK_DTO);
+
+        given(bookService.findByTitleAndReleaseDate(BOOK_TITLE, BOOK_RELEASEDATE)).willReturn(bookDTOList);
+
+        ResponseEntity<List<BookDTO>> result = underTest.findByTitleAndReleaseDate(BOOK_TITLE, BOOK_RELEASEDATE);
+
+        ResponseEntity<List<BookDTO>> expected = ResponseEntity.ok(bookDTOList);
 
         assertEquals(expected, result);
     }

@@ -5,10 +5,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import jk.program.library_manager.controller.BookController;
 import jk.program.library_manager.dto.BookDTO;
 import jk.program.library_manager.entity.Book;
 import jk.program.library_manager.exception.BookNotFoundException;
+import jk.program.library_manager.exception.WriterNotFoundException;
+import jk.program.library_manager.repository.WriterRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -24,6 +25,7 @@ public class BookServiceImpl implements BookService {
     private static final Logger LOGGER = LoggerFactory.getLogger(BookServiceImpl.class);
 
     private final BookRepository bookRepository;
+    private final WriterRepository writerRepository;
     private final ModelMapper modelMapper;
 
     @Override
@@ -38,6 +40,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDTO create(BookDTO bookDTO) {
+        Long writerId = bookDTO.getWriterId();
+
+        if(writerRepository.findById(writerId).isEmpty()) {
+            LOGGER.error("Writer not found with writerId = {}!", writerId);
+            throw new WriterNotFoundException("Writer not found with id = " + writerId);
+        }
+
         Book bookToSave = modelMapper.map(bookDTO, Book.class);
         bookToSave.setId(null);
         Book savedBook = bookRepository.save(bookToSave);
@@ -85,6 +94,12 @@ public class BookServiceImpl implements BookService {
         if (optionalBook.isEmpty()) {
             LOGGER.error("Book not found with id = {}!", id);
             throw new BookNotFoundException("Book not found with id = " + id);
+        }
+
+        Long writerId = bookDTO.getWriterId();
+        if(writerRepository.findById(writerId).isEmpty()) {
+            LOGGER.error("Writer not found with authorId = {}!", writerId);
+            throw new WriterNotFoundException("Writer not found with id = " + writerId);
         }
 
         Book bookToUpdate = modelMapper.map(bookDTO, Book.class);

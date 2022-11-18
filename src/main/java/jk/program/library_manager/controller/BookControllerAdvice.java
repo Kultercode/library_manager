@@ -2,6 +2,7 @@ package jk.program.library_manager.controller;
 
 import jk.program.library_manager.exception.BookNotFoundException;
 import jk.program.library_manager.exception.InvalidBookException;
+import jk.program.library_manager.exception.WriterNotFoundException;
 import jk.program.library_manager.response.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,6 @@ public class BookControllerAdvice {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BookControllerAdvice.class);
 
-
     @ExceptionHandler(value = InvalidBookException.class)
     public ResponseEntity<ErrorResponse> handleInvalidBookException(InvalidBookException invalidBookException) {
         ErrorResponse errorResponse = new ErrorResponse(invalidBookException.getErrors());
@@ -25,6 +25,12 @@ public class BookControllerAdvice {
 
     @ExceptionHandler(value = BookNotFoundException.class)
     public ResponseEntity<Void> handleBookNotFoundException(BookNotFoundException bookNotFoundException) {
+        return ResponseEntity.notFound()
+                .build();
+    }
+
+    @ExceptionHandler(value = WriterNotFoundException.class)
+    public ResponseEntity<Void> handleWriterNotFoundException(WriterNotFoundException writerNotFoundException) {
         return ResponseEntity.notFound()
                 .build();
     }

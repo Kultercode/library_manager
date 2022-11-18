@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import jk.program.library_manager.dto.BookDTO;
 import jk.program.library_manager.dto.WriterDTO;
 
 public interface WriterService {

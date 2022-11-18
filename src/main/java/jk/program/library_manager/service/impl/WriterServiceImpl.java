@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import jk.program.library_manager.dto.BookDTO;
 import jk.program.library_manager.dto.WriterDTO;
-import jk.program.library_manager.entity.Book;
 import jk.program.library_manager.entity.Writer;
 import jk.program.library_manager.exception.WriterNotFoundException;
 import lombok.AllArgsConstructor;

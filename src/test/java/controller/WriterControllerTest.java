@@ -4,11 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import jk.program.library_manager.controller.WriterController;
+import jk.program.library_manager.dto.BookDTO;
 import jk.program.library_manager.dto.WriterDTO;
 import jk.program.library_manager.service.WriterService;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +23,8 @@ import org.springframework.validation.BindingResult;
 public class WriterControllerTest {
     
     private static final Long WRITER_ID = 1L;
+    private static final String WRITER_NAME = "George Orwell";
+    private static final Date WRITER_BIRTHDATE = new GregorianCalendar(1903, Calendar.JUNE, 25).getTime();
     private static final WriterDTO WRITER_DTO = new WriterDTO();
     private static final WriterDTO REQUEST = new WriterDTO();
     private static final WriterDTO CREATED_WRITER = new WriterDTO();
@@ -73,6 +74,45 @@ public class WriterControllerTest {
         ResponseEntity<WriterDTO> result = underTest.findById(WRITER_ID);
 
         ResponseEntity<WriterDTO> expected = ResponseEntity.notFound().build();
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testFindByTitleShouldReturnListOfBook() {
+        List<WriterDTO> writerDTOList = Collections.singletonList(WRITER_DTO);
+
+        given(writerService.findByName(WRITER_NAME)).willReturn(writerDTOList);
+
+        ResponseEntity<List<WriterDTO>> result = underTest.findByName(WRITER_NAME);
+
+        ResponseEntity<List<WriterDTO>> expected = ResponseEntity.ok(writerDTOList);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testFindByBirthDateShouldReturnListOfBook() {
+        List<WriterDTO> writerDTOList = Collections.singletonList(WRITER_DTO);
+
+        given(writerService.findByBirthDate(WRITER_BIRTHDATE)).willReturn(writerDTOList);
+
+        ResponseEntity<List<WriterDTO>> result = underTest.findByBirthDate(WRITER_BIRTHDATE);
+
+        ResponseEntity<List<WriterDTO>> expected = ResponseEntity.ok(writerDTOList);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testFindByNameAndBirthDateShouldReturnListOfBook() {
+        List<WriterDTO> writerDTOList = Collections.singletonList(WRITER_DTO);
+
+        given(writerService.findByNameAndBirthDate(WRITER_NAME, WRITER_BIRTHDATE)).willReturn(writerDTOList);
+
+        ResponseEntity<List<WriterDTO>> result = underTest.findByNameAndBirthDate(WRITER_NAME, WRITER_BIRTHDATE);
+
+        ResponseEntity<List<WriterDTO>> expected = ResponseEntity.ok(writerDTOList);
 
         assertEquals(expected, result);
     }

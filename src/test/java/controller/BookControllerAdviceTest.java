@@ -7,6 +7,7 @@ import java.util.List;
 import jk.program.library_manager.controller.BookControllerAdvice;
 import jk.program.library_manager.exception.BookNotFoundException;
 import jk.program.library_manager.exception.InvalidBookException;
+import jk.program.library_manager.exception.WriterNotFoundException;
 import jk.program.library_manager.response.ErrorResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,9 @@ public class BookControllerAdviceTest {
 
     private static final BookNotFoundException BOOK_NOT_FOUND_EXCEPTION =
             new BookNotFoundException(EXCEPTION_MESSAGE);
+
+    private static final WriterNotFoundException WRITER_NOT_FOUND_EXCEPTION =
+            new WriterNotFoundException(EXCEPTION_MESSAGE);
 
     private BookControllerAdvice underTest;
 
@@ -47,6 +51,16 @@ public class BookControllerAdviceTest {
     public void testBookNotFoundHandlerShouldReturnEmptyResponseWithNotFoundStatusCode() {
 
         ResponseEntity<Void> result = underTest.handleBookNotFoundException(BOOK_NOT_FOUND_EXCEPTION);
+
+        ResponseEntity<Void> expected = ResponseEntity.notFound().build();
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testWriterNotFoundHandlerShouldReturnEmptyResponseWithNotFoundStatusCode() {
+
+        ResponseEntity<Void> result = underTest.handleWriterNotFoundException(WRITER_NOT_FOUND_EXCEPTION);
 
         ResponseEntity<Void> expected = ResponseEntity.notFound().build();
 

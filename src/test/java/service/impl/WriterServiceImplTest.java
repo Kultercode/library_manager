@@ -5,9 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import jk.program.library_manager.dto.WriterDTO;
 import jk.program.library_manager.entity.Writer;
@@ -25,6 +23,8 @@ import org.modelmapper.ModelMapper;
 public class WriterServiceImplTest {
 
     private static final Long WRITER_ID = 1L;
+    private static final String WRITER_NAME = "George Orwell";
+    private static final Date WRITER_BIRTHDATE = new GregorianCalendar(1903, Calendar.JUNE, 25).getTime();
     private static final Writer WRITER = new Writer();
     private static final WriterDTO WRITER_DTO = new WriterDTO();
 
@@ -70,6 +70,42 @@ public class WriterServiceImplTest {
         Optional<WriterDTO> result = underTest.findById(WRITER_ID);
 
         Optional<WriterDTO> expected = Optional.empty();
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testFindByNameShouldReturnAllWriter() {
+        given(writerRepository.findByName(WRITER_NAME)).willReturn(Collections.singletonList(WRITER));
+        given(modelMapper.map(WRITER, WriterDTO.class)).willReturn(WRITER_DTO);
+
+        List<WriterDTO> result = underTest.findByName(WRITER_NAME);
+
+        List<WriterDTO> expected = Collections.singletonList(WRITER_DTO);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testFindByBirthDateShouldReturnAllWriter() {
+        given(writerRepository.findByBirthDate(WRITER_BIRTHDATE)).willReturn(Collections.singletonList(WRITER));
+        given(modelMapper.map(WRITER, WriterDTO.class)).willReturn(WRITER_DTO);
+
+        List<WriterDTO> result = underTest.findByBirthDate(WRITER_BIRTHDATE);
+
+        List<WriterDTO> expected = Collections.singletonList(WRITER_DTO);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testFindByNameAndBirthDateShouldReturnAllWriter() {
+        given(writerRepository.findByNameAndBirthDate(WRITER_NAME, WRITER_BIRTHDATE)).willReturn(Collections.singletonList(WRITER));
+        given(modelMapper.map(WRITER, WriterDTO.class)).willReturn(WRITER_DTO);
+
+        List<WriterDTO> result = underTest.findByNameAndBirthDate(WRITER_NAME, WRITER_BIRTHDATE);
+
+        List<WriterDTO> expected = Collections.singletonList(WRITER_DTO);
 
         assertEquals(expected, result);
     }

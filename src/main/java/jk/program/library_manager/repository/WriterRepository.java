@@ -3,10 +3,6 @@ package jk.program.library_manager.repository;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import jk.program.library_manager.entity.Book;
 import jk.program.library_manager.entity.Writer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
