@@ -82,6 +82,14 @@ public class BookController {
         return ResponseEntity.ok(listBookDTO);
     }
 
+    @RequestMapping(path = "/titleAndReleaseDate", method = RequestMethod.GET)
+    public ResponseEntity<List<BookDTO>> findByTitleAndReleaseDate(@RequestParam String title, @RequestParam Date releaseDate) {
+        LOGGER.info("Received books/titleAndReleaseDate findByTitleAndReleaseDate request.");
+        List<BookDTO> listBookDTO = bookService.findByTitleAndReleaseDate(title, releaseDate);
+
+        LOGGER.info("Successfully searched by title and releaseDate.");
+        return ResponseEntity.ok(listBookDTO);
+    }
 
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<BookDTO> update(@RequestBody @Valid BookDTO bookDTO, BindingResult bindingResult) {

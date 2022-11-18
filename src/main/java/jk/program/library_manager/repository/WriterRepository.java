@@ -18,4 +18,7 @@ public interface WriterRepository extends JpaRepository<Writer, Long> {
 
     @Query(value = "SELECT * FROM writers WHERE birth_date = ?1", nativeQuery = true)
     List<Writer> findByBirthDate(Date birthDate);
+
+    @Query(value = "SELECT * FROM writers WHERE name = ?1 AND birth_date = ?2", nativeQuery = true)
+    List<Writer> findByNameAndBirthDate(String name, Date birthDate);
 }

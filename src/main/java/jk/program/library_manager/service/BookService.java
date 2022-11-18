@@ -18,6 +18,8 @@ public interface BookService {
 
     List<BookDTO> findByReleaseDate(Date releaseDate);
 
+    List<BookDTO> findByTitleAndReleaseDate(String title, Date releaseDate);
+
     BookDTO update(BookDTO bookDTO);
 
     void delete(Long id);

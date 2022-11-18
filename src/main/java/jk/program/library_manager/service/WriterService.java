@@ -19,6 +19,8 @@ public interface WriterService {
 
     List<WriterDTO> findByBirthDate(Date birthDate);
 
+    List<WriterDTO> findByNameAndBirthDate(String name, Date birthDate);
+
     WriterDTO update(WriterDTO writerDTO);
 
     void delete(Long id);

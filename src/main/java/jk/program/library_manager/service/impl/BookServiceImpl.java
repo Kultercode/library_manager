@@ -68,6 +68,14 @@ public class BookServiceImpl implements BookService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<BookDTO> findByTitleAndReleaseDate(String title, Date releaseDate) {
+        List<Book> listBook = bookRepository.findByTitleAndReleaseDate(title, releaseDate);
+
+        return listBook.stream()
+                .map(book -> modelMapper.map(book, BookDTO.class))
+                .collect(Collectors.toList());
+    }
 
     @Override
     public BookDTO update(BookDTO bookDTO) {

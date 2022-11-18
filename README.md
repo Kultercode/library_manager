@@ -3,7 +3,7 @@ Library Manager Application
 
 To use the application with a gui I used Swagger UI.
 
-To run the application, if you are in the same folder as the file, you should type this into the command line: java -jar library_manager-1.0.jar
+To run the application, if you are in the same folder as the file, you should type this into the command line: java -jar library_manager-1.1.jar
 
 After the app successfully started, you should type this into a web browser and hit enter: http://localhost:8080/swagger-ui/index.html
 There you can test the functions of the application.

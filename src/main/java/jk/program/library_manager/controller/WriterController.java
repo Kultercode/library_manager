@@ -81,6 +81,15 @@ public class WriterController {
         return ResponseEntity.ok(listWriterDTO);
     }
 
+    @RequestMapping(path = "/nameAndBirthDate", method = RequestMethod.GET)
+    public ResponseEntity<List<WriterDTO>> findByNameAndBirthDate(@RequestParam String name, @RequestParam Date birthDate) {
+        LOGGER.info("Received writers/nameAndBirthDate findByNameAndBirthDate request.");
+        List<WriterDTO> listWriterDTO = writerService.findByNameAndBirthDate(name, birthDate);
+
+        LOGGER.info("Successfully searched by name and birthDate.");
+        return ResponseEntity.ok(listWriterDTO);
+    }
+
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<WriterDTO> update(@RequestBody @Valid WriterDTO writerDTO, BindingResult bindingResult) {
         LOGGER.info("Received writers update request.");

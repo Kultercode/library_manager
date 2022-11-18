@@ -69,6 +69,15 @@ public class WriterServiceImpl implements WriterService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<WriterDTO> findByNameAndBirthDate(String name, Date birthDate) {
+        List<Writer> listWriter = writerRepository.findByNameAndBirthDate(name, birthDate);
+
+        return listWriter.stream()
+                .map(writer -> modelMapper.map(writer, WriterDTO.class))
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     public WriterDTO update(WriterDTO writerDTO) {

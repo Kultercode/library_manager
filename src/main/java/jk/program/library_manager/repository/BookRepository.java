@@ -18,4 +18,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query(value = "SELECT * FROM books WHERE release_date = ?1", nativeQuery = true)
     List<Book> findByReleaseDate(Date releaseDate);
+
+    @Query(value = "SELECT * FROM books WHERE title = ?1 AND release_date = ?2", nativeQuery = true)
+    List<Book> findByTitleAndReleaseDate(String title, Date releaseDate);
 }
